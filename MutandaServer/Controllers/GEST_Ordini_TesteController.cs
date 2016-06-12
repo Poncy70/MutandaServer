@@ -121,7 +121,7 @@ namespace OrderEntry.Net.Service
 
             try
             {
-                sql = string.Format("SELECT PrefissoNumerazione, SuffissoNumerazione FROM DEVICE_ParametriDevice WHERE DeviceMail = '{0}'", deviceMail);
+                sql = string.Format("SELECT IsNull(PrefissoNumerazione, ''), IsNull(SuffissoNumerazione, '') FROM DEVICE_ParametriDevice WHERE DeviceMail = '{0}'", deviceMail);
                 DataTable dtParam = db.ReadData(sql);
 
                 if (dtParam.Rows.Count > 0)
