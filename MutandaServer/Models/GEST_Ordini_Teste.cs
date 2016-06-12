@@ -9,6 +9,7 @@ namespace OrderEntry.Net.Models
     {
         public GEST_Ordini_Teste()
         {
+            RigheOrdine = new List<GEST_Ordini_Righe>();
         }
 
         private string mRagioneSociale;
@@ -148,5 +149,7 @@ namespace OrderEntry.Net.Models
         public string IdDevice { get; set; }
 
         public int NrRigheTot { get; set; }
+
+        public List<GEST_Ordini_Righe> RigheOrdine;
     }
 }
