@@ -6,6 +6,7 @@ using System.Web.Http.OData;
 using Microsoft.Azure.Mobile.Server;
 using OrderEntry.Net.Models;
 using System.Collections.Generic;
+using Microsoft.Azure.Mobile.Server.Config;
 
 namespace OrderEntry.Net.Service
 {
