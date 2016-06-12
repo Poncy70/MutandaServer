@@ -5,9 +5,11 @@ using System.Web.Http.Controllers;
 using System.Web.Http.OData;
 using Microsoft.Azure.Mobile.Server;
 using OrderEntry.Net.Models;
+using Microsoft.Azure.Mobile.Server.Config;
 
 namespace OrderEntry.Net.Service
 {
+    [MobileAppController]
     public class GEST_Articoli_DisponibilitaController : BaseController<GEST_Articoli_Disponibilita>
     {
         protected OrderEntryNetContext context;

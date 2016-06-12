@@ -8,6 +8,7 @@ using OrderEntry.Net.Models;
 
 namespace OrderEntry.Net.Service
 {
+    [MobileAppController]
     public class GEST_Articoli_BarcodeController : BaseController<GEST_Articoli_BarCode>
     {
         protected OrderEntryNetContext context;

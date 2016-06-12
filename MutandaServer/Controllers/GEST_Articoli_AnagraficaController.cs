@@ -8,6 +8,7 @@ using OrderEntry.Net.Models;
 
 namespace OrderEntry.Net.Service
 {
+    [MobileAppController]
     public class GEST_Articoli_AnagraficaController : BaseController<GEST_Articoli_Anagrafica>
     {
         protected OrderEntryNetContext context;

@@ -218,8 +218,6 @@
     <Compile Include="Controllers\GEST_Scala_ScontiController.cs" />
     <Compile Include="Controllers\GEST_UnitaMisuraController.cs" />
     <Compile Include="Controllers\GEST_Update_ImmaginiController.cs" />
-    <Compile Include="Controllers\AuthorizationController.cs" />
-    <Compile Include="Controllers\OrdiniSaveApiController.cs" />
     <Compile Include="Controllers\PermissionController.cs" />
     <Compile Include="DBData.cs" />
     <Compile Include="Enumerativi.cs" />

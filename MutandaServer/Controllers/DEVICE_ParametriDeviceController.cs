@@ -9,6 +9,7 @@ using System.Collections.Generic;
 
 namespace OrderEntry.Net.Service
 {
+    [MobileAppController]
     public class DEVICE_ParametriDeviceController : BaseController<DEVICE_ParametriDevice>
     {
         protected OrderEntryNetContext context;

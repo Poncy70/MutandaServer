@@ -6,9 +6,11 @@ using System.Web.Http.OData;
 using Microsoft.Azure.Mobile.Server;
 using OrderEntry.Net.Models;
 using System.Collections.Generic;
+using Microsoft.Azure.Mobile.Server.Config;
 
 namespace OrderEntry.Net.Service
 {
+    [MobileAppController]
     [Authorize]
     public class GEST_Clienti_AnagraficaController : BaseController<GEST_Clienti_Anagrafica>
     {
