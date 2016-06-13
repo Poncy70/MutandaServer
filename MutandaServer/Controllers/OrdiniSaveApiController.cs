@@ -11,10 +11,10 @@ using System;
 using Newtonsoft.Json.Linq;
 using System.Net.Http;
 using OrderEntry.Net.Models;
-using System.Net;
 using System.Text;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace OrderEntry.Net.Service
 {
@@ -183,7 +183,7 @@ namespace OrderEntry.Net.Service
                     {
                         string guiRiga;
 
-                        foreach (GEST_Ordini_Righe riga in ordine.RigheOrdine)
+                        foreach (GEST_Ordini_Righe riga in ordine.RigheOrdine.Where(a => a.CloudState != 2))
                         {
                             guiRiga = Guid.NewGuid().ToString();
 
