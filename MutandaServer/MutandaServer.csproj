@@ -270,6 +270,8 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\orderEntryNet - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\orderEntryNet - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\orderEntryNet-TEST - FTP %2810%29.pubxml" />
     <None Include="Properties\PublishProfiles\orderEntryNet-TEST - FTP %2811%29.pubxml" />
     <None Include="Properties\PublishProfiles\orderEntryNet-TEST - FTP %2812%29.pubxml" />

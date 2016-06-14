@@ -130,6 +130,7 @@ namespace OrderEntry.Net.Models
                 else
                     return mNazioneSped;
             }
+
             set { mNazioneSped = value; }
         }
 
@@ -149,6 +150,20 @@ namespace OrderEntry.Net.Models
         public string IdDevice { get; set; }
 
         public int NrRigheTot { get; set; }
+
+        private string mIdAnagraficaDevice;
+        public string IdAnagraficaDevice
+        {
+            get
+            {
+                if (mIdAnagraficaDevice != null)
+                    return mIdAnagraficaDevice.Replace("'", "''");
+                else
+                    return mIdAnagraficaDevice;
+            }
+
+            set { mIdAnagraficaDevice = value; }
+        }
 
         public List<GEST_Ordini_Righe> RigheOrdine;
     }

@@ -144,7 +144,7 @@ namespace OrderEntry.Net.Service
                 {
                     sqlTesta.Append("INSERT INTO GEST_Ordini_Teste(Id, RagioneSociale, PartitaIva, CodiceFiscale, DataDocumento, NumeroOrdineDevice, ");
                     sqlTesta.Append("CodPagamento, CodListino, TotaleDocumento, CloudState, DataConsegna, TotaleConsegna, IdAgente, IdAnagrafica, Note, ");
-                    sqlTesta.Append("IdIndSpedMerce, RagSocSped, IndirizzoSped, CittaSped, CapSped, ProvSped, NazioneSped, NrRigheTot, DeviceMail, IdDevice, UpdatedAt) ");
+                    sqlTesta.Append("IdIndSpedMerce, RagSocSped, IndirizzoSped, CittaSped, CapSped, ProvSped, NazioneSped, NrRigheTot, DeviceMail, IdDevice, UpdatedAt, IdAnagraficaDevice) ");
                     sqlTesta.Append("VALUES(");
                     sqlTesta.AppendFormat("'{0}',", ordine.Id);
                     sqlTesta.AppendFormat("'{0}',", ordine.RagioneSociale);
@@ -176,7 +176,8 @@ namespace OrderEntry.Net.Service
                     sqlTesta.AppendFormat("'{0}',", ordine.NrRigheTot);
                     sqlTesta.AppendFormat("'{0}',", ordine.DeviceMail);
                     sqlTesta.AppendFormat("'{0}',", ordine.IdDevice);
-                    sqlTesta.Append("getDate()");
+                    sqlTesta.Append("getDate(),");
+                    sqlTesta.AppendFormat("'{0}'", ordine.IdAnagraficaDevice); 
                     sqlTesta.Append(")");
 
                     if (ordine.RigheOrdine.Count > 0)
