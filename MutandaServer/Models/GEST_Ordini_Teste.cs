@@ -148,5 +148,7 @@ namespace OrderEntry.Net.Models
         public string IdDevice { get; set; }
 
         public int NrRigheTot { get; set; }
+
+        public int NumeroOrdineGenerale { get; set; }
     }
 }

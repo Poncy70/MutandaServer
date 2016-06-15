@@ -189,6 +189,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\Startup.MobileApp.cs" />
@@ -266,24 +267,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\PublishProfiles\orderEntryNet-TEST - FTP %2810%29.pubxml" />
-    <None Include="Properties\PublishProfiles\orderEntryNet-TEST - FTP %2811%29.pubxml" />
-    <None Include="Properties\PublishProfiles\orderEntryNet-TEST - FTP %2812%29.pubxml" />
-    <None Include="Properties\PublishProfiles\orderEntryNet-TEST - FTP %2813%29.pubxml" />
-    <None Include="Properties\PublishProfiles\orderEntryNet-TEST - FTP %2814%29.pubxml" />
-    <None Include="Properties\PublishProfiles\orderEntryNet-TEST - FTP %288%29.pubxml" />
-    <None Include="Properties\PublishProfiles\orderEntryNet-TEST - FTP %289%29.pubxml" />
-    <None Include="Properties\PublishProfiles\orderEntryNet-TEST - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\orderEntryNet-TEST - Web Deploy %2810%29.pubxml" />
-    <None Include="Properties\PublishProfiles\orderEntryNet-TEST - Web Deploy %2811%29.pubxml" />
-    <None Include="Properties\PublishProfiles\orderEntryNet-TEST - Web Deploy %2812%29.pubxml" />
-    <None Include="Properties\PublishProfiles\orderEntryNet-TEST - Web Deploy %2813%29.pubxml" />
-    <None Include="Properties\PublishProfiles\orderEntryNet-TEST - Web Deploy %2814%29.pubxml" />
-    <None Include="Properties\PublishProfiles\orderEntryNet-TEST - Web Deploy %288%29.pubxml" />
-    <None Include="Properties\PublishProfiles\orderEntryNet-TEST - Web Deploy %289%29.pubxml" />
-    <None Include="Properties\PublishProfiles\orderEntryNet-TEST - Web Deploy.pubxml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

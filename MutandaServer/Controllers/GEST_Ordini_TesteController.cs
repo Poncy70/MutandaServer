@@ -57,7 +57,7 @@ namespace OrderEntry.Net.Service
             }
             catch (System.Exception e)
             {
-                ControllerStatic.WriteErrorLog(mConnectionInfo, "GEST_Ordini_TesteController", e, i.ToString());
+                ControllerStatic.WriteErrorLog(mConnectionInfo, "GEST_Ordini_TesteController.PatchGEST_Ordini_Teste", e, i.ToString());
             }
 
             return null;
@@ -76,7 +76,7 @@ namespace OrderEntry.Net.Service
             }
             catch (System.Exception e)
             {
-                ControllerStatic.WriteErrorLog(mConnectionInfo, "GEST_Ordini_TesteController", e, "");
+                ControllerStatic.WriteErrorLog(mConnectionInfo, "GEST_Ordini_TesteController.PatchGEST_Ordini_Teste", e, "");
             }
 
             return null;
@@ -87,18 +87,20 @@ namespace OrderEntry.Net.Service
             try
             {
                 item.NumeroOrdineDevice = GetNumeroOrdine(item.DeviceMail);
+                item.NumeroOrdineGenerale = GetNumeroOrdineGenerale();
                 item.CloudState = 0;
+
                 GEST_Ordini_Teste current = await InsertAsync(item);
                 return CreatedAtRoute("Tables", new { id = current.Id }, current);
             }
             catch (HttpResponseException re)
             {
-                ControllerStatic.WriteErrorLog(mConnectionInfo, "GEST_Ordini_TesteController", re, re.Response.ReasonPhrase);
+                ControllerStatic.WriteErrorLog(mConnectionInfo, "GEST_Ordini_TesteController.PostGEST_Ordini_Teste", re, re.Response.ReasonPhrase);
                 return ResponseMessage(re.Response);
             }
             catch (System.Exception e)
             {
-                ControllerStatic.WriteErrorLog(mConnectionInfo, "GEST_Ordini_TesteController", e, "");
+                ControllerStatic.WriteErrorLog(mConnectionInfo, "GEST_Ordini_TesteController.PostGEST_Ordini_Teste", e, "");
             }
 
             return null;
@@ -149,8 +151,29 @@ namespace OrderEntry.Net.Service
             }
             catch (Exception ex)
             {
-                ControllerStatic.WriteErrorLog(connectionInfo, "OrdiniSaveController", ex, sql);
+                ControllerStatic.WriteErrorLog(connectionInfo, "GEST_Ordini_TesteController.GetNumeroOrdine", ex, sql);
                 return "";
+            }
+
+            return numeroOrdine;
+        }
+
+        private int GetNumeroOrdineGenerale()
+        {
+            ConnectionInfo connectionInfo = ControllerStatic.GetDBSource(mCredentials);
+            DBData db = new DBData(connectionInfo);
+            int numeroOrdine = 1;
+
+            string sql = string.Format("SELECT ISNULL(MAX(NumeroOrdineGenerale) + 1,0) As MaxOrdine FROM GEST_Ordini_Teste");
+
+            try
+            {
+                DataTable dt = db.ReadData(sql);
+                if (dt.Rows.Count > 0) numeroOrdine = (int)dt.Rows[0]["MaxOrdine"];
+            }
+            catch (Exception ex)
+            {
+                ControllerStatic.WriteErrorLog(connectionInfo, "GEST_Ordini_TesteController.GetNumeroOrdineGenerale", ex, sql);
             }
 
             return numeroOrdine;
