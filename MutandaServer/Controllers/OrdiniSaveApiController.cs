@@ -144,7 +144,7 @@ namespace OrderEntry.Net.Service
                 {
                     sqlTesta.Append("INSERT INTO GEST_Ordini_Teste(Id, RagioneSociale, PartitaIva, CodiceFiscale, DataDocumento, NumeroOrdineDevice, ");
                     sqlTesta.Append("CodPagamento, CodListino, TotaleDocumento, CloudState, DataConsegna, TotaleConsegna, IdAgente, IdAnagrafica, Note, ");
-                    sqlTesta.Append("IdIndSpedMerce, RagSocSped, IndirizzoSped, CittaSped, CapSped, ProvSped, NazioneSped, NrRigheTot, DeviceMail, IdDevice, UpdatedAt, IdAnagraficaDevice) ");
+                    sqlTesta.Append("IdIndSpedMerce, RagSocSped, IndirizzoSped, CittaSped, CapSped, ProvSped, NazioneSped, NrRigheTot, DeviceMail, IdDevice, UpdatedAt, IdAnagraficaDevice, NumeroOrdineGenerale) ");
                     sqlTesta.Append("VALUES(");
                     sqlTesta.AppendFormat("'{0}',", ordine.Id);
                     sqlTesta.AppendFormat("'{0}',", ordine.RagioneSociale);
@@ -177,7 +177,9 @@ namespace OrderEntry.Net.Service
                     sqlTesta.AppendFormat("'{0}',", ordine.DeviceMail);
                     sqlTesta.AppendFormat("'{0}',", ordine.IdDevice);
                     sqlTesta.Append("getDate(),");
-                    sqlTesta.AppendFormat("'{0}'", ordine.IdAnagraficaDevice); 
+                    sqlTesta.AppendFormat("'{0}',", ordine.IdAnagraficaDevice);
+                    sqlTesta.AppendFormat("{0}", GetNumeroOrdineGenerale());
+                    
                     sqlTesta.Append(")");
 
                     if (ordine.RigheOrdine.Count > 0)
@@ -280,6 +282,27 @@ namespace OrderEntry.Net.Service
             }
         }
 
+        private int GetNumeroOrdineGenerale()
+        {
+            ConnectionInfo connectionInfo = ControllerStatic.GetDBSource(mCredentials);
+            DBData db = new DBData(connectionInfo);
+            int numeroOrdine = 1;
+
+            string sql = string.Format("SELECT ISNULL(MAX(NumeroOrdineGenerale) + 1,0) As MaxOrdine FROM GEST_Ordini_Teste");
+
+            try
+            {
+                DataTable dt = db.ReadData(sql);
+                if (dt.Rows.Count > 0) numeroOrdine = (int)dt.Rows[0]["MaxOrdine"];
+            }
+            catch (Exception ex)
+            {
+                ControllerStatic.WriteErrorLog(connectionInfo, "OrdiniSaveController.GetNumeroOrdineGenerale", ex, sql);
+            }
+
+            return numeroOrdine;
+        }
+
         private string GetNumeroOrdine(string deviceMail)
         {
             ConnectionInfo connectionInfo = ControllerStatic.GetDBSource(mCredentials);
@@ -320,7 +343,7 @@ namespace OrderEntry.Net.Service
             }
             catch (Exception ex)
             {
-                ControllerStatic.WriteErrorLog(connectionInfo, "OrdiniSaveController", ex, sql);
+                ControllerStatic.WriteErrorLog(connectionInfo, "OrdiniSaveController.GetNumeroOrdine", ex, sql);
                 return "";
             }
 
