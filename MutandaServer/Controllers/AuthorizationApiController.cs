@@ -105,7 +105,7 @@ namespace OrderEntry.Net.Service
             return JToken.Parse(await resp.Content.ReadAsStringAsync());
         }
 
-        public async Task<Authorization> Post([FromBody] GEST_Ordini_Teste ordine, string idDevice)
+        public async Task<Authorization> Post()
         {
             ConnectionInfo connectionInfo = ControllerStatic.GetDBSource(mCredentials);
 
@@ -113,22 +113,9 @@ namespace OrderEntry.Net.Service
 
             if (connectionInfo.DBName != null && connectionInfo.DBName != "")
             {
-                DBData db = new DBData(connectionInfo);
-                string sql = "SELECT DeviceMail, IdAgente FROM DEVICE_ParametriDevice WHERE IdDevice = '" + idDevice + "'";
-                DataTable dt = db.ReadData(sql);
-
-                string deviceMail = "";
-                int idAgente = 0;
-
-                if (dt.Rows.Count > 0)
-                {
-                    deviceMail = (string)dt.Rows[0]["DeviceMail"];
-                    idAgente = (int)dt.Rows[0]["IdAgente"];
-                }
-
                 authorizationModel.DBName = connectionInfo.DBName;
-                authorizationModel.DeviceMail = deviceMail;
-                authorizationModel.IdAgente = idAgente;
+                authorizationModel.DeviceMail = connectionInfo.DeviceMail;
+                authorizationModel.IdAgente = connectionInfo.IdAgente;
                 authorizationModel.SuperUser = connectionInfo.SuperUser;
                 authorizationModel.OAuthProvider = (short)mAuthProvider;
                 authorizationModel.AccesDenied = false;
