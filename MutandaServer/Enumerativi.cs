@@ -23,4 +23,16 @@ namespace OrderEntry.Net.Service
         Modify = 1,
         Cancel = 2
     }
+
+    public enum DbParamType
+    {
+        None = 0,
+        String = 1,
+        Date = 2,
+        Boolean = 3,
+        Int = 4,
+        Double = 6,
+        Decimal = 7,
+        Binary = 8
+    }
 }

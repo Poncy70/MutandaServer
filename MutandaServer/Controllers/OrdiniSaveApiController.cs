@@ -142,6 +142,9 @@ namespace OrderEntry.Net.Service
 
                 if (numeroOrdineDevice != string.Empty)
                 {
+                    DbParameters pars = new DbParameters();
+                    pars.Add(new DbParam("@Note", DbType.String, ordine.Note));
+
                     sqlTesta.Append("INSERT INTO GEST_Ordini_Teste(Id, RagioneSociale, PartitaIva, CodiceFiscale, DataDocumento, NumeroOrdineDevice, ");
                     sqlTesta.Append("CodPagamento, CodListino, TotaleDocumento, CloudState, DataConsegna, TotaleConsegna, IdAgente, IdAnagrafica, Note, ");
                     sqlTesta.Append("IdIndSpedMerce, RagSocSped, IndirizzoSped, CittaSped, CapSped, ProvSped, NazioneSped, NrRigheTot, DeviceMail, IdDevice, UpdatedAt, IdAnagraficaDevice, NumeroOrdineGenerale) ");
@@ -165,7 +168,7 @@ namespace OrderEntry.Net.Service
                     sqlTesta.AppendFormat("{0},", ordine.TotaleConsegna);
                     sqlTesta.AppendFormat("{0},", ordine.IdAgente);
                     sqlTesta.AppendFormat("{0},", ordine.IdAnagrafica);
-                    sqlTesta.AppendFormat("'{0}',", ordine.Note);
+                    sqlTesta.Append("@Note,");
                     sqlTesta.AppendFormat("{0},", ordine.IdIndSpedMerce);
                     sqlTesta.AppendFormat("'{0}',", ordine.RagSocSped);
                     sqlTesta.AppendFormat("'{0}',", ordine.IndirizzoSped);
@@ -227,7 +230,7 @@ namespace OrderEntry.Net.Service
                     }
 
                     db.BeginTransaction();
-                    db.Execute(sqlTesta.ToString());
+                    db.Execute(sqlTesta.ToString(), pars);
 
                     foreach (string riga in sqlRighe)
                         db.Execute(riga);
