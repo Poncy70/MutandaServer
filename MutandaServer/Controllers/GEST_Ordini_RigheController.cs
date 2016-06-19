@@ -32,19 +32,19 @@ namespace OrderEntry.Net.Service
             return Lookup(id);
         }
 
-        //protected override IQueryable<GEST_Ordini_Righe> Query()
-        //{
-        //    IQueryable<GEST_Ordini_Righe> righeQuery = null;
-        //    IEnumerable<GEST_Ordini_Righe> righe = (from righeOrdini in context.GEST_Ordini_Righe
-        //                                            join testeOrdini in context.GEST_Ordini_Teste
-        //                                                 on righeOrdini.IdSlave equals testeOrdini.Id
-        //                                            into VGroup2
-        //                                            from VRigheOrdini in VGroup2
-        //                                            select righeOrdini);
+        protected override IQueryable<GEST_Ordini_Righe> Query()
+        {
+            IQueryable<GEST_Ordini_Righe> righeQuery = null;
+            IEnumerable<GEST_Ordini_Righe> righe = (from righeOrdini in context.GEST_Ordini_Righe
+                                                    join testeOrdini in context.GEST_Ordini_Teste.Where(a => a.IdAgente == mConnectionInfo.IdAgente)
+                                                         on righeOrdini.IdSlave equals testeOrdini.Id
+                                                    into VGroup2
+                                                    from VRigheOrdini in VGroup2
+                                                    select righeOrdini);
 
-        //    righeQuery = righe.AsQueryable();
-        //    return righeQuery;
-        //}
+            righeQuery = righe.AsQueryable();
+            return righeQuery;
+        }
 
         // GET tables/GEST_Ordini_Righe
         public IQueryable<GEST_Ordini_Righe> GetAllGEST_Ordini_Righe()
@@ -89,8 +89,14 @@ namespace OrderEntry.Net.Service
         {
             try
             {
-                GEST_Ordini_Righe current = await InsertAsync(item);
-                return CreatedAtRoute("Tables", new { id = current.Id }, current);
+                if (!ExistOrdine(item.Id))
+                {
+                    item.CloudState = 0;
+                    GEST_Ordini_Righe current = await InsertAsync(item);
+                    return CreatedAtRoute("Tables", new { id = current.Id }, current);
+                }
+                else
+                    return CreatedAtRoute("Tables", new { id = item.Id }, item);
             }
             catch (HttpResponseException re)
             {
@@ -109,6 +115,11 @@ namespace OrderEntry.Net.Service
         public Task DeleteGEST_Ordini_Righe(string id)
         {
             return DeleteAsync(id);
+        }
+
+        private bool ExistOrdine(string id)
+        {
+            return context.GEST_Ordini_Righe.Where(a => a.Id == id).Count() > 0;
         }
     }
 }

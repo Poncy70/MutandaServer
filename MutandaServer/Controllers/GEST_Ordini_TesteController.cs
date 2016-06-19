@@ -34,7 +34,7 @@ namespace OrderEntry.Net.Service
         {
             IQueryable<GEST_Ordini_Teste> testeQuery = null;
             IEnumerable<GEST_Ordini_Teste> teste = (from testeOrdini in context.GEST_Ordini_Teste
-                                                    where testeOrdini.IdAgente == mConnectionInfo.IdAgente //|| mConnectionInfo.SuperUser == true
+                                                    where testeOrdini.IdAgente == mConnectionInfo.IdAgente 
                                                     select testeOrdini);
 
             testeQuery = teste.AsQueryable();
@@ -86,12 +86,17 @@ namespace OrderEntry.Net.Service
         {
             try
             {
-                item.NumeroOrdineDevice = GetNumeroOrdine(item.DeviceMail);
-                item.NumeroOrdineGenerale = GetNumeroOrdineGenerale();
-                item.CloudState = 0;
+                if (!ExistOrdine(item.Id))
+                {
+                    item.NumeroOrdineDevice = GetNumeroOrdine(item.DeviceMail);
+                    item.NumeroOrdineGenerale = GetNumeroOrdineGenerale();
+                    item.CloudState = 0;
 
-                GEST_Ordini_Teste current = await InsertAsync(item);
-                return CreatedAtRoute("Tables", new { id = current.Id }, current);
+                    GEST_Ordini_Teste current = await InsertAsync(item);
+                    return CreatedAtRoute("Tables", new { id = current.Id }, current);
+                }
+                else
+                    return CreatedAtRoute("Tables", new { id = item.Id }, item);
             }
             catch (HttpResponseException re)
             {
@@ -123,7 +128,7 @@ namespace OrderEntry.Net.Service
 
             try
             {
-                sql = string.Format("SELECT IsNull(PrefissoNumerazione, ''), IsNull(SuffissoNumerazione, '') FROM DEVICE_ParametriDevice WHERE DeviceMail = '{0}'", deviceMail);
+                sql = string.Format("SELECT IsNull(PrefissoNumerazione, '') As PrefissoNumerazione, IsNull(SuffissoNumerazione, '') As SuffissoNumerazione FROM DEVICE_ParametriDevice WHERE DeviceMail = '{0}'", deviceMail);
                 DataTable dtParam = db.ReadData(sql);
 
                 if (dtParam.Rows.Count > 0)
@@ -177,6 +182,11 @@ namespace OrderEntry.Net.Service
             }
 
             return numeroOrdine;
+        }
+
+        private bool ExistOrdine(string id)
+        {
+            return context.GEST_Ordini_Teste.Where(a => a.Id == id).Count() > 0;
         }
     }
 }
