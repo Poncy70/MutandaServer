@@ -2,8 +2,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.Common;
+using System.Linq;
 
 namespace OrderEntry.Net.Service
 {
@@ -118,12 +120,21 @@ namespace OrderEntry.Net.Service
             CloseConnection();
             return dt;
         }
-
         public void Execute(string sql)
+        {
+            Execute(sql, new DbParameters());
+        }
+
+        public void Execute(string sql, DbParameters parameters)
         {
             OpenConnection();
 
             DbCommand cmd = mCnn.CreateCommand();
+
+            if (parameters != null)
+                foreach (DbParam paramObj in parameters)
+                    cmd.Parameters.Add(GetCommandParameter(cmd, paramObj));
+
             if (mTransaction != null)
                 cmd.Transaction = mTransaction;
 
@@ -149,6 +160,123 @@ namespace OrderEntry.Net.Service
                 mCnn.ConnectionString = mConnectionString;
                 mCnn.Open();
             }
+        }
+
+        private DbParameter GetCommandParameter(DbCommand cmd, DbParam parameter)
+        {
+            DbParameter parameterObject = cmd.CreateParameter();
+            parameterObject.ParameterName = parameter.Name;
+            parameterObject.DbType = parameter.TypeDB;
+
+            parameterObject.Value = parameter.Value;
+
+            if (parameter.TypeDB == DbType.String)
+               parameterObject.Size = Convert.ToString(parameterObject.Value).Length;
+
+            if (parameter.TypeDB == DbType.Date)
+            {
+                DateTime nullValue = new DateTime(0001, 1, 1);
+                parameterObject.Value = ((DateTime)parameter.Value).CompareTo(nullValue) == 0 ? DBNull.Value : parameter.Value;
+            }
+
+            if (parameter.TypeDB == DbType.Decimal)
+            {
+                IDbDataParameter dbParameter = parameterObject as IDbDataParameter;
+                dbParameter.Precision = 19;
+                dbParameter.Scale = 8;
+            }
+
+            if (parameterObject.Value == null)
+                parameterObject.Value = DBNull.Value;
+
+            return parameterObject;
+        }
+    }
+
+    public class DbParam
+    {
+        public string Name { get; set; }
+
+        public object Value { get; set; }
+
+        public DbType TypeDB { get; set; }
+
+        public DbParam(string parameterName, DbType fieldType, object value)
+        {
+            Name = parameterName;
+            TypeDB = fieldType;
+            Value = value;
+        }
+    }
+
+    public class DbParameters : IEnumerable
+    {
+        private List<DbParam> mParamList = new List<DbParam>();
+
+        public DbParameters()
+            : base()
+        { }
+
+        /// <exclude />
+        public DbParameters(DbParam par)
+            : base()
+        {
+            Add(par);
+        }
+
+        /// <summary>
+        /// Ritorna il numero degli item presenti
+        /// </summary>
+        public int Count { get { return mParamList.Count; } }
+
+        /// <summary>
+        /// Permette l'accesso non tipizzato al valore del campo richiesto
+        /// </summary>
+        /// <param name="i">Posizione del campo</param>
+        /// <returns>Valore del campo (object)</returns>  
+        public DbParam this[int i]
+        {
+            get { return mParamList[i]; }
+        }
+
+        public DbParam this[string name]
+        {
+            get { return FindByName(name); }
+        }
+
+        public DbParam FindByName(string name)
+        {
+            var result = from DbParam c in mParamList
+                         where c.Name == name
+                         select c;
+
+            if (result.Count<DbParam>() == 0)
+                return null;
+            else
+                return (DbParam)result.First<DbParam>();
+        }
+
+        /// <summary>
+        /// Aggiunge un item alla lista
+        /// </summary>
+        /// <param name="parameter">Istanza da aggiungere</param>
+        public void Add(DbParam parameter)
+        {
+            if (parameter == null)
+                throw new ArgumentNullException("parameter");
+
+            if (string.IsNullOrEmpty(parameter.Name))
+                throw new ArgumentException("Il parametro deve avere un nome valido");
+
+            if (FindByName(parameter.Name) != null)
+                throw new Exception("il parametro è già definito nell'elenco dei parametri: parametro " + parameter.Name);
+
+            mParamList.Add(parameter);
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return mParamList.GetEnumerator();
         }
     }
 }
