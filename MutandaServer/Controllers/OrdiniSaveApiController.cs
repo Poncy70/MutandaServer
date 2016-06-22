@@ -147,7 +147,7 @@ namespace OrderEntry.Net.Service
 
                     sqlTesta.Append("INSERT INTO GEST_Ordini_Teste(Id, RagioneSociale, PartitaIva, CodiceFiscale, DataDocumento, NumeroOrdineDevice, ");
                     sqlTesta.Append("CodPagamento, CodListino, TotaleDocumento, CloudState, DataConsegna, TotaleConsegna, IdAgente, IdAnagrafica, Note, ");
-                    sqlTesta.Append("IdIndSpedMerce, RagSocSped, IndirizzoSped, CittaSped, CapSped, ProvSped, NazioneSped, NrRigheTot, DeviceMail, IdDevice, UpdatedAt, IdAnagraficaDevice, NumeroOrdineGenerale, CloudState) ");
+                    sqlTesta.Append("IdIndSpedMerce, RagSocSped, IndirizzoSped, CittaSped, CapSped, ProvSped, NazioneSped, NrRigheTot, DeviceMail, IdDevice, UpdatedAt, IdAnagraficaDevice, NumeroOrdineGenerale) ");
                     sqlTesta.Append("VALUES(");
                     sqlTesta.AppendFormat("'{0}',", ordine.Id);
                     sqlTesta.AppendFormat("'{0}',", ordine.RagioneSociale);
@@ -158,7 +158,7 @@ namespace OrderEntry.Net.Service
                     sqlTesta.AppendFormat("'{0}',", ordine.CodPagamento);
                     sqlTesta.AppendFormat("'{0}',", ordine.CodListino);
                     sqlTesta.AppendFormat("{0},", ordine.TotaleDocumento);
-                    sqlTesta.AppendFormat("{0},", ordine.CloudState);
+                    sqlTesta.AppendFormat("{0},", 0);
 
                     if (ordine.DataConsegna.HasValue)
                         sqlTesta.AppendFormat("'{0}',", ordine.DataConsegna.Value.Date.ToString("yyyy-MM-dd HH:mm:ss"));
@@ -181,8 +181,7 @@ namespace OrderEntry.Net.Service
                     sqlTesta.AppendFormat("'{0}',", ordine.IdDevice);
                     sqlTesta.Append("getDate(),");
                     sqlTesta.AppendFormat("'{0}',", ordine.IdAnagraficaDevice);
-                    sqlTesta.AppendFormat("{0},", GetNumeroOrdineGenerale());
-                    sqlTesta.AppendFormat("{0}", 0);
+                    sqlTesta.AppendFormat("{0}", GetNumeroOrdineGenerale());
 
                     sqlTesta.Append(")");
 
