@@ -150,6 +150,7 @@ namespace OrderEntry.Net.Models
         public int NrRigheTot { get; set; }
 
         public int NumeroOrdineGenerale { get; set; }
+
         public string IdAnagraficaDevice { get; set; } //CORRISPONDE ALL'ID DEL BASE MODEL DI GEST_Clienti_Anagrafica la utilizzeremo per associare i clienti e i nuovi ordini
 
     }
