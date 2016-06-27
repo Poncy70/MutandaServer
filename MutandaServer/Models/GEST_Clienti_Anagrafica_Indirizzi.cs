@@ -16,5 +16,6 @@ namespace OrderEntry.Net.Models
         public string Cap { get; set; }
         public string Citta { get; set; }
         public string Provincia { get; set; }
+        public string IdAnagraficaDevice { get; set; }
     }
 }
