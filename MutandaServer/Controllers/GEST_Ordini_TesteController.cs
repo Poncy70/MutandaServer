@@ -86,7 +86,9 @@ namespace OrderEntry.Net.Service
         {
             try
             {
-                if (!ExistOrdine(item.Id))
+                AggiornaVersione(item.DeviceMail);
+
+                if (!ExistOrdine(item.Id) && item.CloudState != 2)
                 {
                     item.NumeroOrdineDevice = GetNumeroOrdine(item.DeviceMail);
                     item.NumeroOrdineGenerale = GetNumeroOrdineGenerale();
@@ -114,6 +116,23 @@ namespace OrderEntry.Net.Service
         public Task DeleteGEST_Ordini_Teste(string id)
         {
             return DeleteAsync(id);
+        }
+
+        private void AggiornaVersione(string deviceMail)
+        {
+            ConnectionInfo connectionInfo = ControllerStatic.GetDBSource(mCredentials);
+            DBData db = new DBData(connectionInfo);
+            string sql = string.Empty;
+
+            try
+            {
+                sql = string.Format("UPDATE DEVICE_ParametriDevice SET VersionCode = 11 WHERE DeviceMail = '{0}'", deviceMail);
+                db.Execute(sql);
+            }
+            catch (Exception ex)
+            {
+                ControllerStatic.WriteErrorLog(connectionInfo, "GEST_Ordini_TesteController.AggiornaVersione", ex, sql);
+            }
         }
 
         private string GetNumeroOrdine(string deviceMail)
