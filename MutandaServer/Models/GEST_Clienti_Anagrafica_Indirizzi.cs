@@ -2,6 +2,7 @@
 
 namespace OrderEntry.Net.Models
 {
+    // Prova di Merge
     public class GEST_Clienti_Anagrafica_Indirizzi : EntityData
     {
         public GEST_Clienti_Anagrafica_Indirizzi()
