@@ -132,6 +132,9 @@ namespace OrderEntry.Net.Service
                 authorizationModel.SuperUser = connectionInfo.SuperUser;
                 authorizationModel.OAuthProvider = (short)mAuthProvider;
                 authorizationModel.AccesDenied = false;
+
+                if (idAgente == 0)
+                    ControllerStatic.WriteErrorLog(connectionInfo, "Authorization.Post", idDevice);
             }
             else
                 authorizationModel.AccesDenied = true;
