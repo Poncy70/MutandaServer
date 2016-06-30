@@ -66,6 +66,7 @@ namespace OrderEntry.Net.Service
                               ex.InnerException.ToString().Replace("'", "''"): "", ex.StackTrace.Replace("'", "''"), sqlString);
 
             db.Execute(sql.ToString());
+            db.CloseConnection();
         }
 
         public static void WriteErrorLog(ConnectionInfo connectionInfo, string controller, string messageText)
@@ -77,6 +78,7 @@ namespace OrderEntry.Net.Service
             sql.AppendFormat("VALUES(getdate(), '{0}', '{1}', '{2}')", connectionInfo.DeviceMail, controller, messageText);
 
             db.Execute(sql.ToString());
+            db.CloseConnection();
         }
     }
 }

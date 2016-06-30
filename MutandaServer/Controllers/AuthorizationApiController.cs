@@ -105,7 +105,7 @@ namespace OrderEntry.Net.Service
             return JToken.Parse(await resp.Content.ReadAsStringAsync());
         }
 
-        public async Task<Authorization> Post([FromBody] GEST_Ordini_Teste ordine, string idDevice)
+        public async Task<Authorization> Post(string idDevice)
         {
             ConnectionInfo connectionInfo = ControllerStatic.GetDBSource(mCredentials);
 
@@ -116,6 +116,7 @@ namespace OrderEntry.Net.Service
                 DBData db = new DBData(connectionInfo);
                 string sql = "SELECT DeviceMail, IdAgente FROM DEVICE_ParametriDevice WHERE IdDevice = '" + idDevice + "'";
                 DataTable dt = db.ReadData(sql);
+                db.CloseConnection();
 
                 string deviceMail = "";
                 int idAgente = 0;

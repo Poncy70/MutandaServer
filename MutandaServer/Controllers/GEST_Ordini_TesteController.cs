@@ -30,16 +30,16 @@ namespace OrderEntry.Net.Service
             }
         }
 
-        //protected override IQueryable<GEST_Ordini_Teste> Query()
-        //{
-        //    IQueryable<GEST_Ordini_Teste> testeQuery = null;
-        //    IEnumerable<GEST_Ordini_Teste> teste = (from testeOrdini in context.GEST_Ordini_Teste
-        //                                            where testeOrdini.IdAgente == mConnectionInfo.IdAgente 
-        //                                            select testeOrdini);
+        protected override IQueryable<GEST_Ordini_Teste> Query()
+        {
+            IQueryable<GEST_Ordini_Teste> testeQuery = null;
+            IEnumerable<GEST_Ordini_Teste> teste = (from testeOrdini in context.GEST_Ordini_Teste
+                                                    where testeOrdini.IdAgente == mConnectionInfo.IdAgente
+                                                    select testeOrdini);
 
-        //    testeQuery = teste.AsQueryable();
-        //    return testeQuery;
-        //}
+            testeQuery = teste.AsQueryable();
+            return testeQuery;
+        }
 
         public IQueryable<GEST_Ordini_Teste> GetAllGEST_Ordini_Teste()
         {
@@ -128,10 +128,15 @@ namespace OrderEntry.Net.Service
             {
                 sql = string.Format("UPDATE DEVICE_ParametriDevice SET VersionCode = 11 WHERE DeviceMail = '{0}'", deviceMail);
                 db.Execute(sql);
+
             }
             catch (Exception ex)
             {
                 ControllerStatic.WriteErrorLog(connectionInfo, "GEST_Ordini_TesteController.AggiornaVersione", ex, sql);
+            }
+            finally
+            {
+                db.CloseConnection();
             }
         }
 
@@ -198,6 +203,10 @@ namespace OrderEntry.Net.Service
             catch (Exception ex)
             {
                 ControllerStatic.WriteErrorLog(connectionInfo, "GEST_Ordini_TesteController.GetNumeroOrdineGenerale", ex, sql);
+            }
+            finally
+            {
+                db.CloseConnection();
             }
 
             return numeroOrdine;
