@@ -17,9 +17,9 @@ namespace OrderEntry.Net.Models
             get
             {
                 if (mRagioneSociale != null)
-                    return mRagioneSociale.Replace("'", "''");
-                else
                     return mRagioneSociale;
+                else
+                    return string.Empty;
             }
         
             set { mRagioneSociale = value; }
@@ -35,9 +35,9 @@ namespace OrderEntry.Net.Models
             get
             {
                 if (mNumeroOrdineDevice != null)
-                    return mNumeroOrdineDevice.Replace("'", "''");
-                else
                     return mNumeroOrdineDevice;
+                else
+                    return string.Empty;
             }
             set { mNumeroOrdineDevice = value; }
         }
@@ -59,9 +59,9 @@ namespace OrderEntry.Net.Models
             get
             {
                 if (mRagSocSped != null)
-                    return mRagSocSped.Replace("'", "''");
-                else
                     return mRagSocSped;
+                else
+                    return string.Empty;
             }
 
             set { mRagSocSped = value; }
@@ -73,9 +73,9 @@ namespace OrderEntry.Net.Models
             get
             {
                 if (mIndirizzoSped != null)
-                    return mIndirizzoSped.Replace("'", "''");
-                else
                     return mIndirizzoSped;
+                else
+                    return string.Empty;
             }
             set { mIndirizzoSped = value; }
         }
@@ -86,9 +86,9 @@ namespace OrderEntry.Net.Models
             get
             {
                 if (mCittaSped != null)
-                    return mCittaSped.Replace("'", "''");
-                else
                     return mCittaSped;
+                else
+                    return string.Empty;
             }
             set { mCittaSped = value; }
         }
@@ -99,9 +99,9 @@ namespace OrderEntry.Net.Models
             get
             {
                 if (mCapSped != null)
-                    return mCapSped.Replace("'", "''");
-                else
                     return mCapSped;
+                else
+                    return string.Empty;
             }
             set { mCapSped = value; }
         }
@@ -112,9 +112,9 @@ namespace OrderEntry.Net.Models
             get
             {
                 if (mProvSped != null)
-                    return mProvSped.Replace("'", "''");
-                else
                     return mProvSped;
+                else
+                    return string.Empty;
             }
             set { mProvSped = value; }
         }
@@ -125,9 +125,9 @@ namespace OrderEntry.Net.Models
             get
             {
                 if (mNazioneSped != null)
-                    return mNazioneSped.Replace("'", "''");
-                else
                     return mNazioneSped;
+                else
+                    return string.Empty;
             }
             set { mNazioneSped = value; }
         }
@@ -138,9 +138,9 @@ namespace OrderEntry.Net.Models
             get
             {
                 if (mDeviceMail != null)
-                    return mDeviceMail.Replace("'", "''");
-                else
                     return mDeviceMail;
+                else
+                    return string.Empty;
             }
             set { mDeviceMail = value; }
         }

@@ -278,6 +278,8 @@
   <ItemGroup>
     <None Include="Properties\PublishProfiles\orderentry20 - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\orderentry20 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\orderentry20-TEST - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\orderentry20-TEST - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\orderEntryNet-TEST - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\orderEntryNet-TEST - Web Deploy.pubxml" />
   </ItemGroup>

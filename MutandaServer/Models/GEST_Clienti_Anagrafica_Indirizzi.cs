@@ -19,5 +19,6 @@ namespace OrderEntry.Net.Models
         public string Provincia { get; set; }
         public string IdAnagraficaDevice { get; set; }
         public short CloudState { get; set; }
+        public string Telefono { get; set; }
     }
 }
