@@ -105,7 +105,7 @@ namespace OrderEntry.Net.Service
             return JToken.Parse(await resp.Content.ReadAsStringAsync());
         }
 
-        public async Task<Authorization> Post(string idDevice)
+        public async Task<Authorization> Post([FromBody] GEST_Ordini_Teste ordine, string idDevice)
         {
             ConnectionInfo connectionInfo = ControllerStatic.GetDBSource(mCredentials);
 
