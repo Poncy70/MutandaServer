@@ -30,17 +30,6 @@ namespace OrderEntry.Net.Service
             }
         }
 
-        protected override IQueryable<GEST_Ordini_Teste> Query()
-        {
-            IQueryable<GEST_Ordini_Teste> testeQuery = null;
-            IEnumerable<GEST_Ordini_Teste> teste = (from testeOrdini in context.GEST_Ordini_Teste
-                                                    where testeOrdini.IdAgente == mConnectionInfo.IdAgente
-                                                    select testeOrdini);
-
-            testeQuery = teste.AsQueryable();
-            return testeQuery;
-        }
-
         public IQueryable<GEST_Ordini_Teste> GetAllGEST_Ordini_Teste()
         {
             IQueryable<GEST_Ordini_Teste> i = null;
