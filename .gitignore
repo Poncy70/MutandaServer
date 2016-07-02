@@ -210,3 +210,6 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+/MutandaServer/Properties/PublishProfiles/orderentry20-TEST - Web Deploy.pubxml
+/MutandaServer/Properties/PublishProfiles/orderentry20-TEST - FTP.pubxml
+/MutandaServer/Properties/PublishProfiles
