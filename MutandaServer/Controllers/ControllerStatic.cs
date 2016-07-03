@@ -10,48 +10,37 @@ namespace OrderEntry.Net.Service
         public static ConnectionInfo GetDBSource(ProviderCredentials credentials)
         {
             DBData db = new DBData("mxeqxlr2h5.database.windows.net,1433", "orderEntryDB", "TrilogikSa", "Password.1");
-
-            StringBuilder sql = new StringBuilder();
-            sql.Append("SELECT a.servername, a.dbname, a.dbuser, a.dbpassword, a.devicemail, IsNull(a.idagente, 0) as idagente, IsNull(a.superuser, 0) as superuser ");
-            sql.Append("FROM [orderEntry].[Autenticate] a ");
-            sql.AppendFormat("WHERE a.devicemail = '{0}' ", credentials.UserId);
-
-            DataTable dt = null;
-            string deviceMail = "";
-            int idAgente = 0;
+            ConnectionInfo connectionInfo = new ConnectionInfo();
 
             try
             {
+                StringBuilder sql = new StringBuilder();
+                sql.Append("SELECT a.servername, a.dbname, a.dbuser, a.dbpassword, a.devicemail, IsNull(a.idagente, 0) as idagente, IsNull(a.superuser, 0) as superuser ");
+                sql.Append("FROM [orderEntry].[Autenticate] a ");
+                sql.AppendFormat("WHERE a.devicemail = '{0}' ", credentials.UserId);
+
+                DataTable dt = null;
                 dt = db.ReadData(sql.ToString());
 
-                DBData dbAgente = new DBData("mxeqxlr2h5.database.windows.net,1433", "LamandeDB", "TrilogikSa", "Password.1");
-                string sqlAgente = "SELECT DeviceMail, IdAgente FROM DEVICE_ParametriDevice WHERE DeviceMail = '" + credentials.UserId + "'";
-                DataTable dtAgente = dbAgente.ReadData(sqlAgente);
-
-                if (dtAgente.Rows.Count > 0)
+                if (dt.Rows.Count > 0)
                 {
-                    deviceMail = (string)dtAgente.Rows[0]["DeviceMail"];
-                    idAgente = (int)dtAgente.Rows[0]["IdAgente"];
+                    connectionInfo.ServerName = (string)dt.Rows[0]["servername"];
+                    connectionInfo.DBName = (string)dt.Rows[0]["dbname"];
+                    connectionInfo.DBUser = (string)dt.Rows[0]["dbuser"];
+                    connectionInfo.DBPassword = (string)dt.Rows[0]["dbpassword"];
+                    connectionInfo.SuperUser = (bool)dt.Rows[0]["superuser"];
+                    connectionInfo.DeviceMail = (string)dt.Rows[0]["devicemail"]; 
+                    connectionInfo.IdAgente = (int)dt.Rows[0]["idagente"]; 
                 }
+
+                if (connectionInfo.IdAgente == 0)
+                    WriteErrorLog(connectionInfo, "ControllerStatic.GetDBSource", credentials.UserId);
             }
             catch (System.Exception ex)
             {
-                throw ex;
+                WriteErrorLog(connectionInfo, "ControllerStatic.GetDBSource", ex.Message);
             }
             
-            ConnectionInfo connectionInfo = new ConnectionInfo();
-
-            if (dt.Rows.Count > 0)
-            {
-                connectionInfo.ServerName = (string)dt.Rows[0]["servername"];
-                connectionInfo.DBName = (string)dt.Rows[0]["dbname"];
-                connectionInfo.DBUser = (string)dt.Rows[0]["dbuser"];
-                connectionInfo.DBPassword = (string)dt.Rows[0]["dbpassword"];
-                connectionInfo.DeviceMail = deviceMail;
-                connectionInfo.IdAgente = idAgente;
-                connectionInfo.SuperUser = (bool)dt.Rows[0]["superuser"];
-            }
-
             return connectionInfo;
         }
 

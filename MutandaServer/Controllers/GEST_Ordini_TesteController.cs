@@ -94,6 +94,11 @@ namespace OrderEntry.Net.Service
                     item.NumeroOrdineGenerale = GetNumeroOrdineGenerale();
                     item.CloudState = 0;
 
+                    // Se l'IdAgente == 0 viene forzato lato backend. Per sopperire al baco di caricamento offline dell'ordine, in cui si recuperava 
+                    // l'IdAgente dall'ApiController, in quel momento offline invece che dalla tabella locale.
+                    if (item.IdAgente == 0)
+                        GetIdAgente(ref item);
+
                     GEST_Ordini_Teste current = await InsertAsync(item);
                     return CreatedAtRoute("Tables", new { id = current.Id }, current);
                 }
@@ -116,6 +121,34 @@ namespace OrderEntry.Net.Service
         public Task DeleteGEST_Ordini_Teste(string id)
         {
             return DeleteAsync(id);
+        }
+
+        private void GetIdAgente(ref GEST_Ordini_Teste item)
+        {
+            ConnectionInfo connectionInfo = ControllerStatic.GetDBSource(mCredentials);
+            DBData db = new DBData(connectionInfo);
+
+            string sql = string.Empty;
+
+            try
+            {
+                sql = string.Format("SELECT IdAgente, DeviceMail FROM DEVICE_ParametriDevice WHERE IdDevice = '{0}'", item.IdDevice);
+                DataTable dt = db.ReadData(sql);
+
+                if (dt.Rows.Count > 0)
+                {
+                    item.IdAgente = (int)dt.Rows[0]["IdAgente"];
+                    item.DeviceMail = (string)dt.Rows[0]["DeviceMail"];
+                }
+            }
+            catch (Exception ex)
+            {
+                ControllerStatic.WriteErrorLog(connectionInfo, "GEST_Ordini_TesteController.AggiornaVersione", ex, sql);
+            }
+            finally
+            {
+                db.CloseConnection();
+            }
         }
 
         private void AggiornaVersione(string deviceMail)
