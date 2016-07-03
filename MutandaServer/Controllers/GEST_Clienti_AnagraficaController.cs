@@ -70,13 +70,36 @@ namespace OrderEntry.Net.Service
 
         public Task<GEST_Clienti_Anagrafica> PatchGEST_Clienti_Anagrafica(string id, Delta<GEST_Clienti_Anagrafica> patch)
         {
-            return UpdateAsync(id, patch);
+            try
+            {
+                return UpdateAsync(id, patch);
+            }
+            catch (System.Exception e)
+            {
+                ControllerStatic.WriteErrorLog(mConnectionInfo, "GEST_Clienti_Anagrafica_TesteController.PostGEST_Ordini_Teste", e, "");
+            }
+
+            return null;
         }
 
         public async Task<IHttpActionResult> PostGEST_Clienti_Anagrafica(GEST_Clienti_Anagrafica item)
         {
-            GEST_Clienti_Anagrafica current = await InsertAsync(item);
-            return CreatedAtRoute("Tables", new { id = current.Id }, current);
+            try
+            {
+                GEST_Clienti_Anagrafica current = await InsertAsync(item);
+                return CreatedAtRoute("Tables", new { id = current.Id }, current);
+            }
+            catch (HttpResponseException re)
+            {
+                ControllerStatic.WriteErrorLog(mConnectionInfo, "GEST_Clienti_Anagrafica_TesteController.PostGEST_Ordini_Teste", re, re.Response.ReasonPhrase);
+                return ResponseMessage(re.Response);
+            }
+            catch (System.Exception e)
+            {
+                ControllerStatic.WriteErrorLog(mConnectionInfo, "GEST_Clienti_Anagrafica_TesteController.PostGEST_Ordini_Teste", e, "");
+            }
+
+            return null;
         }
 
         public Task DeleteGEST_Clienti_Anagrafica(string id)

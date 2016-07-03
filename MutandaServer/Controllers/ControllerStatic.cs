@@ -10,7 +10,10 @@ namespace OrderEntry.Net.Service
         public static ConnectionInfo GetDBSource(ProviderCredentials credentials)
         {
             DBData db = new DBData("mxeqxlr2h5.database.windows.net,1433", "orderEntryDB", "TrilogikSa", "Password.1");
+            ConnectionInfo connectionInfo = new ConnectionInfo();
 
+            try
+            {
             StringBuilder sql = new StringBuilder();
             sql.Append("SELECT a.servername, a.dbname, a.dbuser, a.dbpassword, a.devicemail, IsNull(a.idagente, 0) as idagente, IsNull(a.superuser, 0) as superuser ");
             sql.Append("FROM [orderEntry].[Autenticate] a ");
@@ -39,8 +42,6 @@ namespace OrderEntry.Net.Service
                 throw ex;
             }
             
-            ConnectionInfo connectionInfo = new ConnectionInfo();
-
             if (dt.Rows.Count > 0)
             {
                 connectionInfo.ServerName = (string)dt.Rows[0]["servername"];
