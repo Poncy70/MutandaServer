@@ -77,7 +77,7 @@ namespace OrderEntry.Net.Service
             {
                 AggiornaVersione(item.DeviceMail);
 
-                if (!ExistOrdine(item.Id) && item.CloudState != 2)
+                if (!ExistOrdine(item.Id) && item.CloudState == 3)
                 {
                     item.NumeroOrdineDevice = GetNumeroOrdine(item.DeviceMail);
                     item.NumeroOrdineGenerale = GetNumeroOrdineGenerale();
