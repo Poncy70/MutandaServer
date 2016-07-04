@@ -12,6 +12,7 @@ namespace OrderEntry.Net.Service
             DBData db = new DBData("mxeqxlr2h5.database.windows.net,1433", "orderEntryDB", "TrilogikSa", "Password.1");
             ConnectionInfo connectionInfo = new ConnectionInfo();
 
+            ///
             try
             {
             StringBuilder sql = new StringBuilder();
