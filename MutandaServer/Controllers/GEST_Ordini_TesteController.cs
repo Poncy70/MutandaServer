@@ -61,6 +61,9 @@ namespace OrderEntry.Net.Service
         {
             try
             {
+                if (patch.GetEntity().CloudState == 3)
+                    patch.GetEntity().CloudState = 0;
+
                 return UpdateAsync(id, patch);
             }
             catch (System.Exception e)
@@ -77,11 +80,13 @@ namespace OrderEntry.Net.Service
             {
                 AggiornaVersione(item.DeviceMail);
 
-                if (!ExistOrdine(item.Id) && item.CloudState == 3)
+                if (!ExistOrdine(item.Id) && item.CloudState != 2)
                 {
                     item.NumeroOrdineDevice = GetNumeroOrdine(item.DeviceMail);
                     item.NumeroOrdineGenerale = GetNumeroOrdineGenerale();
-                    item.CloudState = 0;
+
+                    if (item.CloudState == 3)
+                        item.CloudState = 0;
 
                     // Se l'IdAgente == 0 viene forzato lato backend. Per sopperire al baco di caricamento offline dell'ordine, in cui si recuperava 
                     // l'IdAgente dall'ApiController, in quel momento offline invece che dalla tabella locale.
