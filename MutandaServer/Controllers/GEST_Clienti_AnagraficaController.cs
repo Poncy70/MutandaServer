@@ -86,17 +86,20 @@ namespace OrderEntry.Net.Service
         {
             try
             {
+                if (item.IdAgente == 0)
+                    ControllerStatic.WriteErrorLog(mConnectionInfo, "GEST_Clienti_Anagrafica_Controller", "IdAgente 0 su utente " + mConnectionInfo.DeviceMail);
+
                 GEST_Clienti_Anagrafica current = await InsertAsync(item);
                 return CreatedAtRoute("Tables", new { id = current.Id }, current);
             }
             catch (HttpResponseException re)
             {
-                ControllerStatic.WriteErrorLog(mConnectionInfo, "GEST_Clienti_Anagrafica_TesteController.PostGEST_Ordini_Teste", re, re.Response.ReasonPhrase);
+                ControllerStatic.WriteErrorLog(mConnectionInfo, "GEST_Clienti_AnagraficaController.PostGEST_Ordini_Teste", re, re.Response.ReasonPhrase);
                 return ResponseMessage(re.Response);
             }
             catch (System.Exception e)
             {
-                ControllerStatic.WriteErrorLog(mConnectionInfo, "GEST_Clienti_Anagrafica_TesteController.PostGEST_Ordini_Teste", e, "");
+                ControllerStatic.WriteErrorLog(mConnectionInfo, "GEST_Clienti_Anagrafica_Controller.PostGEST_Ordini_Teste", e, "");
             }
 
             return null;
