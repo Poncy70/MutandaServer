@@ -159,7 +159,7 @@ namespace OrderEntry.Net.Service
 
             try
             {
-                sql = string.Format("UPDATE DEVICE_ParametriDevice SET VersionCode = 11 WHERE DeviceMail = '{0}'", deviceMail);
+                sql = string.Format("UPDATE DEVICE_ParametriDevice SET VersionName = 'V.2.0', VersionCode = 2 WHERE DeviceMail = '{0}'", deviceMail);
                 db.Execute(sql);
 
             }
